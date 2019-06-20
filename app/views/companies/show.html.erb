@@ -1,9 +1,46 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @company.name %>
-</p>
+<h1>Compañía: <%= @company.name %> </h1>
+
+<h2> Empleados </h2>
+
+<ul>
+<% @company.employees.each do |employee| %>
+  <li>
+    <%= employee.name %>
+  </li>
+<% end %>
+</ul>
+
+<%= form_with(model: [ @company, @employee ], local: true) do |form| %>
+<%= form.hidden_field :company_id, value: @company.id %>
+  <div class="">
+    <%= form.label :first_name, "Nombre" %>
+    <%= form.text_field :first_name %>
+  </div>
+  <div class="">
+    <%= form.label :last_name, "Apellido" %>
+    <%= form.text_field :last_name %>
+  </div>
+  <div class="">
+    <%= form.label :email, "Email" %>
+    <%= form.text_field :email %>
+  </div>
+  <div class="field">
+    <%= form.label :area_id, "Área" %>
+    <%= form.select :area_id, Area.pluck(:name, :id) %>
+  </div>
+  <div class="actions">
+      <%= form.submit %>
+  </div>
+<% end %>
+
+<%= @company.employees.each do |e| %>
+    <%= e.first_name %>
+    <%= e.last_name %>
+    <%= e.email %>
+    <%= e.area %>
+  <% end %>
 
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>
